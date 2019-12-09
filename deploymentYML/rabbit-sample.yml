@@ -1,0 +1,55 @@
+apiVersion: 2019-06-01
+location: westus
+name: tl-test-rabbit
+properties:
+  containers:
+  - name: tl-test-rabbit
+    properties:
+      environmentVariables:
+        - name: 'RABBITMQ_DEFAULT_USER'
+          value: '<username>'
+        - name: 'RABBITMQ_DEFAULT_PASS'
+          value: '<password>'
+      image: rabbitmq:3-management-alpine
+      ports: [
+          {
+            "port": 15672,
+            "protocol": "TCP"
+          },
+          {
+            "port": 5672,
+            "protocol": "TCP"
+          }
+        ]
+      volumeMounts:
+      - mountPath: /rabbit/
+        name: rabbitmq
+      resources:
+        requests:
+          cpu: 1.0
+          memoryInGB: 1.5
+  osType: Linux
+  restartPolicy: Always
+  ipAddress:
+    type: Public
+    ports: [
+          {
+            "port": 15672,
+            "protocol": "TCP"
+          },
+          {
+            "port": 5672,
+            "protocol": "TCP"
+          }
+        ]
+    dnsNameLabel: unilab-rabbit
+  volumes:
+  - name: rabbitmq
+    azureFile:
+      sharename: <azure share name>
+      storageAccountName: <storage account name>
+      storageAccountKey: <storage key>
+tags: null
+type: Microsoft.ContainerInstance/containerGroups
+
+
