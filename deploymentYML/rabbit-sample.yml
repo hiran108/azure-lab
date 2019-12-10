@@ -10,6 +10,10 @@ properties:
           value: '<username>'
         - name: 'RABBITMQ_DEFAULT_PASS'
           value: '<password>'
+        - name: 'RABBITMQ_NODENAME'
+          value: 'rabbit@localhost'
+        - name: 'RABBITMQ_USE_LONGNAME'
+          value: 'true'
       image: rabbitmq:3-management-alpine
       ports: [
           {
@@ -22,7 +26,7 @@ properties:
           }
         ]
       volumeMounts:
-      - mountPath: /rabbit/
+      - mountPath: /var/lib/rabbitmq/mnesia
         name: rabbitmq
       resources:
         requests:
@@ -42,7 +46,7 @@ properties:
             "protocol": "TCP"
           }
         ]
-    dnsNameLabel: unilab-rabbit
+    dnsNameLabel: <unique name for your host>
   volumes:
   - name: rabbitmq
     azureFile:
